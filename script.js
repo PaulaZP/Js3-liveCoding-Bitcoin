@@ -49,13 +49,13 @@ const bitcoinPriceUrl = "https://api.coindesk.com/v1/bpi/currentprice.json";
 const priceElement = document.querySelector("h2");
 const timeElement = document.querySelector("p");
 const button = document.querySelector("button");
+const precio_bitcoin = document.querySelector('select');
 
-function precio(data){
-  const precio_bitcoin = document.querySelector('select').value;
-  if(precio_bitcoin === "USD"){
+function recargarPrecio(data){
+  if(precio_bitcoin.value === "USD"){
     const USD_INFO = data.bpi.USD;
     priceElement.innerHTML = `${USD_INFO.code}${USD_INFO.symbol} ${USD_INFO.rate}`;
-  }else if(precio_bitcoin === "GBP"){
+  }else if(precio_bitcoin.value === "GBP"){
     const GBP_INFO = data.bpi.GBP;
       priceElement.innerHTML = `${GBP_INFO.code}${GBP_INFO.symbol} ${GBP_INFO.rate}`;
   }else{
@@ -78,7 +78,7 @@ const actualizarDatos = () => {
       return response.json();
     })
     .then((data) => {
-      precio(data);
+      recargarPrecio(data);
       
       // AQUI TENEMOS LA FECHA DENTRO DE data.time.updated
 
@@ -93,3 +93,4 @@ const actualizarDatos = () => {
 actualizarDatos();
 
 button.addEventListener("click", actualizarDatos);
+precio_bitcoin.addEventListener("change", actualizarDatos);
